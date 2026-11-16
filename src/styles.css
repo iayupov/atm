@@ -56,6 +56,9 @@ button,a,select,[role="button"]{cursor:pointer}button:disabled,[aria-disabled="t
  .mobile-adaptive .screen{width:142.8572%;height:142.8572%;transform:scale(.7)}
 }
 
+.chat-task.processing-message{justify-content:center}
+.chat-task.processing-message svg{animation:voice-loader-spin .8s linear infinite}
+
 /* Matched pairs keep their cells as the same dark placeholders used by the word bank. */
 .pairs .pair-card.matched,.pairs .pair-card.picture.matched,.pairs .pair-card.matched:disabled{opacity:1;transform:none;pointer-events:none;background:#1d1c2b;border-color:#302e43;color:transparent;font-size:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.015)}
 
