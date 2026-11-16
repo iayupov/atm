@@ -5,8 +5,15 @@ type Screen='map'|'lesson'|'lessonComplete'|'moduleComplete'; type Feedback='non
 const weatherIcon:Record<string,string>={солнечно:'☀️',облачно:'☁️',дождливо:'🌧️',ветрено:'🌪️',холодно:'❄️',тепло:'🌡️'}
 const motivations=['Афәрин!','Шәп!','Яхшы!','Машалла!','Бик күркәм!','Искиткеч!','Сөбханалла!','Көчле!','Әйбәт!','Ару!','Тиешенчә!']
 const lessonCharacters=['character-3.png','character-1.png','character-5.png','character-2.png','character-4.png']
+// Reversible mobile experiment: set to false to restore the previous layout and disable fullscreen requests.
+const MOBILE_ADAPTIVE_UI=true
+
+function useMobileFullscreen(enabled:boolean){
+ useEffect(()=>{if(!enabled||!window.matchMedia('(max-width: 520px) and (pointer: coarse)').matches)return;const root=document.documentElement as HTMLElement&{requestFullscreen?:(options?:FullscreenOptions)=>Promise<void>};const enter=()=>{if(!document.fullscreenElement&&root.requestFullscreen)root.requestFullscreen({navigationUI:'hide'}).catch(()=>{})};window.addEventListener('pointerup',enter,{once:true,capture:true});return()=>window.removeEventListener('pointerup',enter,{capture:true})},[enabled])
+}
 
 export default function App(){
+ useMobileFullscreen(MOBILE_ADAPTIVE_UI)
  const [screen,setScreen]=useState<Screen>('map'),[index,setIndex]=useState(0),[selected,setSelected]=useState<string[]>([]),[attempts,setAttempts]=useState(0),[feedback,setFeedback]=useState<Feedback>('none'),[theory,setTheory]=useState(false),[playing,setPlaying]=useState(false),[recording,setRecording]=useState(false),[repeat,setRepeat]=useState<number[]>([]),[repeatPos,setRepeatPos]=useState(0),[isRepeat,setIsRepeat]=useState(false),[firstTry,setFirstTry]=useState(0),[results,setResults]=useState<ExerciseResult[]>(()=>exercises.map(()=>'none'))
  useEffect(()=>{const clickAudio=new Audio('/assets/audio/click.mp3');clickAudio.preload='auto';const handleClick=(event:MouseEvent)=>{const target=event.target;if(target instanceof Element&&target.closest('button:not(:disabled)')){clickAudio.currentTime=0;clickAudio.play().catch(()=>{})}};document.addEventListener('click',handleClick);return()=>document.removeEventListener('click',handleClick)},[])
  const ex=exercises[isRepeat?repeat[repeatPos]:index], step=isRepeat?repeat[repeatPos]:index, bonus=Math.round(firstTry/exercises.length*10)
@@ -21,7 +28,7 @@ export default function App(){
  const goToExercise=(i:number)=>{if(i===step)return;withSlide(()=>{setIndex(i);setRepeatPos(0);setIsRepeat(false);clear()})}
  const next=()=>{if(!['correct','revealed'].includes(feedback))return;withSlide(()=>{if(isRepeat){if(repeatPos<repeat.length-1){setRepeatPos(v=>v+1);clear()}else setScreen('lessonComplete')}else if(index<exercises.length-1){setIndex(v=>v+1);clear()}else if(repeat.length){setIsRepeat(true);setRepeatPos(0);clear()}else setScreen('lessonComplete')})}
  const jump=(v:string)=>{if(v==='map')reset();else if(v==='lessonComplete')setScreen('lessonComplete');else if(v==='moduleComplete')setScreen('moduleComplete');else start(Number(v))}
- return <div className="stage"><Dev screen={screen} step={step} jump={jump} reset={reset}/><main className="phone">
+ return <div className={`stage${MOBILE_ADAPTIVE_UI?' mobile-adaptive':''}`}><Dev screen={screen} step={step} jump={jump} reset={reset}/><main className="phone">
   {screen==='map'&&<LearningPath onStart={()=>start()}/>} {screen==='lesson'&&<Lesson key={ex.id} ex={ex} step={step} results={results} selected={selected} setSelected={setSelected} attempts={attempts} feedback={feedback} playing={playing} setPlaying={setPlaying} recording={recording} setRecording={setRecording} isRepeat={isRepeat} onTheory={()=>setTheory(true)} onExit={()=>setScreen('map')} onJump={goToExercise} onCheck={check} onRetry={retry} onNext={next}/>} {screen==='lessonComplete'&&<LessonComplete bonus={bonus} onNext={()=>setScreen('moduleComplete')}/>} {screen==='moduleComplete'&&<ModuleComplete onNext={reset}/>} {theory&&<Theory ex={ex} close={()=>setTheory(false)}/>}</main></div>
 }
 
