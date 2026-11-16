@@ -22,4 +22,4 @@ weather(17,'speak','Повтори услышанное','Бүген кояшл�
 weather(18,'speak','Повтори услышанное','Көн яңгырлы һәм җилле.','recorded',[],'/assets/audio/upr18.mp3'),
 weather(19,'speak','Повтори услышанное','Җылы түгел, салкын.','recorded',[],'/assets/audio/upr19.mp3'),
 weather(20,'pairs','Отметь пары','Назови явления погоды','ready',['кояшлы','болытлы','яңгырлы','җилле','җылы','салкын']),
-weather(21,'chatbot','','Сәлам!','completed',[],'/assets/audio/upr21-selam.mp3')]
+weather(21,'chatbot','Проговори диалог','Сәлам!','completed',[],'/assets/audio/upr21-selam.mp3')]
