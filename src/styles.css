@@ -59,11 +59,13 @@ button,a,select,[role="button"]{cursor:pointer}button:disabled,[aria-disabled="t
 .chat-task.processing-message{justify-content:center}
 .chat-task.processing-message svg{animation:voice-loader-spin .8s linear infinite}
 
-.video-theory{padding:calc(22px + var(--safe-top)) 0 24px;gap:20px;background:#0d0d16}
-.video-theory video{width:100%;height:auto;min-height:0;flex:0 0 auto;display:block;object-fit:contain;border-radius:0;background:transparent}
+:root{--safe-bottom:env(safe-area-inset-bottom,0px)}
+.video-theory{padding:calc(22px + var(--safe-top)) 0 calc(90px + var(--safe-bottom));background:#0d0d16;align-items:center;justify-content:flex-start}
+.video-theory video{width:100%;height:auto;max-height:calc(100% - 8px);min-height:0;flex:0 1 auto;display:block;object-fit:contain;border-radius:0;background:transparent}
 .video-theory video::-webkit-media-controls{display:none!important}
-.video-skip{width:calc(100% - 48px);height:54px;flex:0 0 54px;margin:auto 24px 0;border-radius:17px;background:#fff;border-color:#fff}
+.video-skip{position:absolute;z-index:2;left:24px;right:24px;bottom:calc(20px + var(--safe-bottom));width:auto;height:54px;margin:0;border-radius:17px;background:#fff;border-color:#fff}
 .video-skip svg{width:26px;height:26px;stroke-width:2.5}
+@media(max-width:520px){.mobile-adaptive .screen.video-theory{width:100%;height:100dvh;transform:none}.mobile-adaptive .video-theory video{max-height:calc(100dvh - 90px - var(--safe-top) - var(--safe-bottom))}}
 
 /* Matched pairs keep their cells as the same dark placeholders used by the word bank. */
 .pairs .pair-card.matched,.pairs .pair-card.picture.matched,.pairs .pair-card.matched:disabled{opacity:1;transform:none;pointer-events:none;background:#1d1c2b;border-color:#302e43;color:transparent;font-size:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.015)}
