@@ -22,8 +22,8 @@ export default function TypesPage(){
  const copy=async()=>{await navigator.clipboard.writeText(mechanic.template);setCopied(true);window.setTimeout(()=>setCopied(false),1800)}
  return <div className="types-page">
   <aside className="types-sidebar"><a className="types-brand" href="/"><span>А</span><div><strong>Ана теле</strong><small>конструктор уроков</small></div></a><nav aria-label="Механики упражнений">{mechanics.map(item=><button key={item.id} className={active===item.id?'active':''} onClick={()=>setActive(item.id)}><i>{item.number}</i><span><b>{item.title}</b><small>{item.caption}</small></span></button>)}</nav><p>6 механик · 21 упражнение</p></aside>
-  <main className="types-main"><header><div><span className="types-kicker">Библиотека механик</span><h1>{mechanic.title}</h1><p>{mechanic.caption}. Пример взят из урока «Һава торышы».</p></div><span className="types-counter">{mechanic.number}<small>/ 06</small></span></header>
-   <div className="types-workspace"><section className="types-demo-column"><div className="column-label"><span>Живой пример</span><small>можно попробовать</small></div><Demo type={active}/></section><section className="types-template-column"><div className="column-label"><span>Шаблон для Word</span><button onClick={copy}>{copied?<CheckCheck/>:<Clipboard/>}{copied?'Скопировано':'Копировать'}</button></div><pre>{mechanic.template}</pre></section></div>
+  <main className="types-main"><header><div><h1>{mechanic.title}</h1><p>{mechanic.caption}</p></div></header>
+   <div className="types-workspace"><section className="types-demo-column"><Demo type={active}/></section><section className="types-template-column"><div className="column-label"><button onClick={copy}>{copied?<CheckCheck/>:<Clipboard/>}{copied?'Скопировано':'Копировать'}</button></div><pre>{mechanic.template}</pre></section></div>
   </main>
  </div>
 }
