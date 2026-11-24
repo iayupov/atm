@@ -17,6 +17,10 @@ const mechanics:Mechanic[]=[
  {id:'chatbot',number:'10',title:'Чатбот',caption:'Последовательный разговор с ботом',preview:'/?typesPreview=lesson&lesson=weather&exercise=20',template:`Упражнение [номер]\nТип: чатбот\n\nЗадание:\n[ситуация и роль пользователя]\n\nШаг 1\nТекст бота: [текст]\nОжидаемый ответ: [ответ пользователя]\n\nШаг 2\nТекст бота: [текст]\nОжидаемый ответ: [ответ пользователя]\n\n[добавьте остальные шаги по этому образцу]\n\nКомментарий:\n[если есть]`},
 ]
 
+const sentenceOrderMechanic=mechanics.find(item=>item.id==='assemble')!
+sentenceOrderMechanic.title='Порядок предложений'
+sentenceOrderMechanic.template=sentenceOrderMechanic.template.replace('Тип: порядок слов, реплик или карточек','Тип: порядок предложений')
+
 const mechanicSlugs:Record<MechanicId,string>={animation:'animation',fill:'choice',image:'image-choice',assemble:'order',speak:'repeat',pairs:'pairs',chant:'chant',correction:'correction',groups:'groups',chatbot:'chatbot'}
 const mechanicFromPath=():MechanicId=>{const slug=window.location.pathname.split('/').filter(Boolean)[1];return (Object.entries(mechanicSlugs).find(([,value])=>value===slug)?.[0] as MechanicId|undefined)??'image'}
 
