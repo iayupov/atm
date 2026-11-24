@@ -17,13 +17,18 @@ const mechanics:Mechanic[]=[
  {id:'chatbot',number:'10',title:'Чатбот',caption:'Последовательный разговор с ботом',preview:'/?typesPreview=lesson&lesson=weather&exercise=20',template:`Упражнение [номер]\nТип: чатбот\n\nЗадание:\n[ситуация и роль пользователя]\n\nШаг 1\nТекст бота: [текст]\nОжидаемый ответ: [ответ пользователя]\n\nШаг 2\nТекст бота: [текст]\nОжидаемый ответ: [ответ пользователя]\n\n[добавьте остальные шаги по этому образцу]\n\nКомментарий:\n[если есть]`},
 ]
 
+const mechanicSlugs:Record<MechanicId,string>={animation:'animation',fill:'choice',image:'image-choice',assemble:'order',speak:'repeat',pairs:'pairs',chant:'chant',correction:'correction',groups:'groups',chatbot:'chatbot'}
+const mechanicFromPath=():MechanicId=>{const slug=window.location.pathname.split('/').filter(Boolean)[1];return (Object.entries(mechanicSlugs).find(([,value])=>value===slug)?.[0] as MechanicId|undefined)??'image'}
+
 export default function TypesPage(){
- const [active,setActive]=useState<MechanicId>('animation'),[copied,setCopied]=useState(false)
+ const [active,setActive]=useState<MechanicId>(mechanicFromPath),[copied,setCopied]=useState(false)
  const mechanic=mechanics.find(item=>item.id===active)!
  useEffect(()=>{setCopied(false)},[active])
+ useEffect(()=>{const sync=()=>setActive(mechanicFromPath());window.addEventListener('popstate',sync);return()=>window.removeEventListener('popstate',sync)},[])
+ const openMechanic=(id:MechanicId)=>{setActive(id);window.history.pushState({},'',`/types/${mechanicSlugs[id]}/`)}
  const copy=async()=>{await navigator.clipboard.writeText(mechanic.template);setCopied(true);window.setTimeout(()=>setCopied(false),1800)}
  return <div className="types-page">
-  <aside className="types-sidebar"><a className="types-brand" href="/"><span>А</span><div><strong>Ана теле</strong><small>конструктор уроков</small></div></a><nav aria-label="Механики упражнений">{mechanics.map(item=><button key={item.id} className={active===item.id?'active':''} onClick={()=>setActive(item.id)}><b>{item.title}</b></button>)}</nav></aside>
+  <aside className="types-sidebar"><a className="types-brand" href="/"><span>А</span><div><strong>Ана теле</strong><small>конструктор уроков</small></div></a><nav aria-label="Механики упражнений">{mechanics.map(item=><button key={item.id} className={active===item.id?'active':''} onClick={()=>openMechanic(item.id)}><b>{item.title}</b></button>)}</nav></aside>
   <main className="types-main"><header><div><h1>{mechanic.title}{mechanic.draft&&<em>Черновик</em>}</h1><p>{mechanic.caption}</p></div></header>
    <div className="types-workspace"><section className="types-demo-column"><Demo mechanic={mechanic}/></section><section className="types-template-column"><div className="column-label"><button onClick={copy}>{copied?<CheckCheck/>:<Clipboard/>}{copied?'Скопировано':'Копировать'}</button></div><pre>{mechanic.template}</pre></section></div>
   </main>
