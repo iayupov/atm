@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
-import { ArrowRight, Check, CheckCheck, Clipboard, Pause, Play, RotateCcw, Volume2 } from 'lucide-react'
+import { ArrowRight, Check, CheckCheck, Clipboard, Pause, Play, RotateCcw, X } from 'lucide-react'
 
 type MechanicId='animation'|'fill'|'image'|'assemble'|'speak'|'pairs'|'chant'|'correction'|'groups'|'chatbot'
 type Mechanic={id:MechanicId;number:string;title:string;caption:string;template:string;draft?:boolean;preview?:string}
@@ -31,7 +31,7 @@ export default function TypesPage(){
 }
 
 function Demo({mechanic}:{mechanic:Mechanic}){if(mechanic.preview)return <div className="demo-phone system-demo"><iframe key={mechanic.id} src={mechanic.preview} title={`Пример механики «${mechanic.title}»`}/></div>;return mechanic.id==='chant'?<ChantDemo/>:mechanic.id==='groups'?<GroupsDemo/>:<CorrectionDemo/>}
-function DemoShell({children}:{children:ReactNode}){return <div className="demo-phone"><div className="demo-top"><span>A1</span><div>{Array.from({length:7},(_,i)=><i className={i<3?'done':''} key={i}/>)}</div><button aria-label="Воспроизвести"><Volume2/></button></div><div className="demo-body">{children}</div></div>}
+function DemoShell({children}:{children:ReactNode}){return <div className="demo-phone"><header className="lesson-top"><div className="dots" aria-label="Упражнения урока">{Array.from({length:21},(_,i)=><button type="button" className={i<3?'correct':i===3?'current':''} aria-label={`Упражнение ${i+1}`} aria-current={i===3?'step':undefined} key={i}/>)}</div><button type="button" aria-label="Закрыть урок"><X/></button></header><div className="demo-body">{children}</div></div>}
 function DemoHeading({title,hideLabel=false}:{title:string;hideLabel?:boolean}){return <div className="demo-heading">{!hideLabel&&<small>УПРАЖНЕНИЕ</small>}<h2>{title}</h2></div>}
 function ChantDemo(){
  const correct=['— Сәләм-сәләм, хәлләр ничек?\n— Шәп!','— Сәләм-сәләм, хәлләр ничек?\n— Яхшы!','— Сәләм-сәләм, хәлләр ничек?\n— Ярыйсы.','— Сәләм-сәләм, хәлләр ничек?\n— Хм! Начар!'],initialLines=[{id:'okay',text:correct[2]},{id:'great',text:correct[0]},{id:'bad',text:correct[3]},{id:'good',text:correct[1]}]
