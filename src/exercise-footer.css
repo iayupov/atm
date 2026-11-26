@@ -17,6 +17,8 @@
 .lesson-note h2{margin:0;font-size:25px;line-height:1.2;font-weight:800}
 .lesson-note p{margin:0;font-size:16px;line-height:1.4;white-space:pre-line}
 .lesson-note .lesson-note-example{color:inherit;font-size:16px;font-weight:700}
+.lesson-note .lesson-note-translation{margin-top:-18px}
+.lesson-note-list{margin:0;padding-left:24px;font-size:16px;line-height:1.4;display:flex;flex-direction:column;gap:22px}
 .lesson-note-handle{position:absolute;top:0;left:calc(50% - 44px);width:88px;height:36px;padding:0;border:0;background:transparent;display:grid;place-items:center;touch-action:none}
 .lesson-note-handle span{width:62px;height:8px;background:#202437;border-radius:8px}
 .lesson-note-handle:focus-visible{outline:2px solid #202437;outline-offset:-4px;border-radius:12px}

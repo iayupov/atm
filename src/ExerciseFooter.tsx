@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode } from 'react'
 
-export type LessonNote = { title:string; body:string; example?:string }
+export type LessonNote = { title:string; body:string; example?:string; translation?:string }
 export const LessonNotes = createContext<{theory?:LessonNote; culture?:LessonNote}>({})
 
 /** A single reserved row, shared by lesson exercises and author previews. */
@@ -29,8 +29,9 @@ export function ExerciseFooter({children}:{children?:ReactNode}) {
   <div className="exercise-footer-action">{children}</div>
   <dialog ref={dialog} className={`lesson-note ${opened||''} ${closing?'closing':''}`} onCancel={event=>{event.preventDefault();close()}} onClose={()=>setOpened(null)} onClick={event=>{if(event.target===event.currentTarget)close()}} aria-labelledby="lesson-note-title">
    <article><button type="button" className="lesson-note-handle" aria-label="Закрыть карточку" onClick={close} onPointerDown={event=>{dragStart.current=event.clientY;event.currentTarget.setPointerCapture(event.pointerId)}} onPointerUp={event=>{if(event.clientY-dragStart.current>30)close()}}><span/></button><h2 id="lesson-note-title">{note?.title||(opened==='culture'?'Культурная информация':'Теория')}</h2>
-    <p>{note?.body}</p>
+    {note?.body.startsWith('• ')?<ul className="lesson-note-list">{note.body.split('\n').filter(Boolean).map(line=>{const text=line.replace(/^• /,''),colon=text.indexOf(':');return <li key={line}>{colon>=0?<><strong>{text.slice(0,colon+1)}</strong>{text.slice(colon+1)}</>:text}</li>})}</ul>:<p>{note?.body}</p>}
     {note?.example&&<p className="lesson-note-example">{note.example}</p>}
+    {note?.translation&&<p className="lesson-note-translation"><em>{note.translation}</em></p>}
    </article>
   </dialog>
  </div>
