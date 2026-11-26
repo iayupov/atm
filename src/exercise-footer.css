@@ -1,0 +1,34 @@
+/* Change this one value to resize every exercise action and its reserved space. */
+:root{--exercise-action-height:56px;--exercise-action-gap:16px;--exercise-footer-space:calc(var(--exercise-action-height) + var(--exercise-action-gap))}
+.exercise-footer{width:100%;height:var(--exercise-action-height);min-height:var(--exercise-action-height);display:flex;align-items:center;justify-content:center;gap:12px;flex:none}
+.exercise-notes{display:flex;align-items:center;gap:8px;flex:none}
+.exercise-notes>button{width:44px;height:44px;min-height:44px;border:0;border-radius:12px;padding:0;background:transparent;display:grid;place-items:center}
+.exercise-notes img{width:auto;height:42px;object-fit:contain;pointer-events:none}
+.exercise-footer-action{flex:1;min-width:0}
+.exercise-footer-action:empty{display:none}
+.exercise-footer .exercise-footer-action>button{width:100%;height:var(--exercise-action-height);min-height:var(--exercise-action-height);margin:0;border-radius:19px;display:flex;align-items:center;justify-content:center;gap:8px}
+.exercise-footer-action>button span{font-size:15px}
+.lesson-note{position:fixed;inset:auto 0 0;width:min(100%,390px);max-height:80dvh;margin:0 auto;padding:24px;border:1px solid #49445f;border-radius:24px 24px 0 0;background:#242235;color:#f7f4ff;box-shadow:0 -16px 50px #0006}
+.lesson-note::backdrop{background:#080812aa}
+.lesson-note article{display:flex;flex-direction:column;gap:16px}
+.lesson-note h2,.lesson-note p{margin:0;line-height:1.5}
+.lesson-note .lesson-note-example{color:#ffc94d;font-size:20px}
+.lesson-note .secondary{width:100%;flex:none}
+.lesson-body:has(.fill-sentence) .choice-zone{height:calc(56px + var(--exercise-footer-space));bottom:17px}
+.lesson-body:has(.fill-sentence) .choice-zone .inline-result{top:calc(56px + var(--exercise-action-gap))}
+.lesson-body:has(.image-grid) .choice-zone{height:calc(332px + var(--exercise-footer-space))}
+.lesson-body:has(.image-grid) .inline-result{top:calc(332px + var(--exercise-action-gap))}
+.speak-result-slot{height:var(--exercise-action-height);min-height:var(--exercise-action-height);flex-basis:var(--exercise-action-height)}
+.chatbot-result{height:var(--exercise-footer-space);padding-top:var(--exercise-action-gap)}
+.pairs{padding-bottom:var(--exercise-footer-space)}
+.pairs-result .inline-result{width:100%}
+.swipe-action-slot{height:var(--exercise-footer-space)}
+.correction-bottom{height:calc(45px + var(--exercise-footer-space));grid-template-rows:45px var(--exercise-footer-space);flex:none}
+.correction-action-slot{padding-top:var(--exercise-action-gap)}
+.chant-demo>.exercise-footer{margin-top:var(--exercise-action-gap)}
+.token-bank{padding-bottom:var(--exercise-action-gap)}
+.demo-phone{position:relative}
+.image-grid button.answer-correct{background:#28794f;border-color:#4dff92}
+.image-grid button.answer-wrong{background:#682b3d;border-color:#ff4f87}
+.correction-options button.wrong{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+@media(prefers-reduced-motion:reduce){.exercise-footer *{transition:none}}
