@@ -6,6 +6,7 @@ export const LessonNotes = createContext<{theory?:LessonNote; culture?:LessonNot
 /** A single reserved row, shared by lesson exercises and author previews. */
 export function ExerciseFooter({children}:{children?:ReactNode}) {
  const notes=useContext(LessonNotes)
+ const hasTheory=Boolean(notes.theory?.body.trim()),hasCulture=Boolean(notes.culture?.body.trim())
  const [opened,setOpened]=useState<'theory'|'culture'|null>(null)
  const dialog=useRef<HTMLDialogElement>(null),root=useRef<HTMLDivElement>(null),closeTimer=useRef<number|undefined>(undefined),dragStart=useRef(0)
  const [closing,setClosing]=useState(false)
@@ -21,14 +22,14 @@ export function ExerciseFooter({children}:{children?:ReactNode}) {
  },[opened])
  const note=opened?notes[opened]:undefined
  return <div className="exercise-footer" ref={root}>
-  <div className="exercise-notes">
-   <button type="button" aria-label="Культурная информация" onClick={()=>setOpened('culture')}><img src="/assets/lesson/culture-icon.png" alt=""/></button>
-   <button type="button" aria-label="Теория" onClick={()=>setOpened('theory')}><img src="/assets/lesson/theory-icon.png" alt=""/></button>
-  </div>
+  {(hasTheory||hasCulture)&&<div className="exercise-notes">
+   {hasCulture&&<button type="button" aria-label="Культурная информация" onClick={()=>setOpened('culture')}><img src="/assets/lesson/culture-icon.png" alt=""/></button>}
+   {hasTheory&&<button type="button" aria-label="Теория" onClick={()=>setOpened('theory')}><img src="/assets/lesson/theory-icon.png" alt=""/></button>}
+  </div>}
   <div className="exercise-footer-action">{children}</div>
   <dialog ref={dialog} className={`lesson-note ${opened||''} ${closing?'closing':''}`} onCancel={event=>{event.preventDefault();close()}} onClose={()=>setOpened(null)} onClick={event=>{if(event.target===event.currentTarget)close()}} aria-labelledby="lesson-note-title">
    <article><button type="button" className="lesson-note-handle" aria-label="Закрыть карточку" onClick={close} onPointerDown={event=>{dragStart.current=event.clientY;event.currentTarget.setPointerCapture(event.pointerId)}} onPointerUp={event=>{if(event.clientY-dragStart.current>30)close()}}><span/></button><h2 id="lesson-note-title">{note?.title||(opened==='culture'?'Культурная информация':'Теория')}</h2>
-    <p>{note?.body||'Материал для этого задания пока не добавлен автором.'}</p>
+    <p>{note?.body}</p>
     {note?.example&&<p className="lesson-note-example">{note.example}</p>}
    </article>
   </dialog>
