@@ -31,6 +31,7 @@
 .lesson-body:has(.image-grid) .inline-result{top:calc(332px + var(--exercise-action-gap))}
 .speak-result-slot{height:var(--exercise-action-height);min-height:var(--exercise-action-height);flex-basis:var(--exercise-action-height)}
 .speak-exercise .mic{flex-shrink:0;margin:auto auto var(--exercise-action-gap)}
+.speak-exercise .mic.completed{visibility:hidden;pointer-events:none}
 .chatbot-result{height:var(--exercise-footer-space);padding-top:var(--exercise-action-gap)}
 .pairs{padding-bottom:var(--exercise-footer-space)}
 .pairs-result .inline-result{width:100%}
